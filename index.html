@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="shortcut icon" href="./images/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/style.css">
     <title>Calendar app</title>
 </head>
 <body>
@@ -89,6 +89,94 @@
         </div>
     </main>
 </div>
-<div class="overlay js-overlay"></div>
+<form class="popup popup_active js-popup">
+    <button class="popup__close js-close-popup" type="button"></button>
+    <label>
+        <input class="popup__field" type="text" placeholder="Name of the event">
+    </label>
+    <div class="popup__select-box">
+        <div class="options-container">
+            <div class="option">
+                <input class="radio" type="radio" id="10" name="time">
+                <label for="10">10:00</label>
+            </div>
+            <div class="option">
+                <input class="radio" type="radio" id="11" name="time">
+                <label for="11">11:00</label>
+            </div>
+            <div class="option">
+                <input class="radio" type="radio" id="12" name="time">
+                <label for="12">12:00</label>
+            </div>
+            <div class="option">
+                <input class="radio" type="radio" id="13" name="time">
+                <label for="13">13:00</label>
+            </div>
+            <div class="option">
+                <input class="radio" type="radio" id="14" name="time">
+                <label for="14">14:00</label>
+            </div>
+            <div class="option">
+                <input class="radio" type="radio" id="15" name="time">
+                <label for="15">15:00</label>
+            </div>
+            <div class="option">
+                <input class="radio" type="radio" id="16" name="time">
+                <label for="16">16:00</label>
+            </div>
+            <div class="option">
+                <input class="radio" type="radio" id="17" name="time">
+                <label for="17">17:00</label>
+            </div>
+            <div class="option">
+                <input class="radio" type="radio" id="18" name="time">
+                <label for="18">18:00</label>
+            </div>
+        </div>
+        <div class="popup__field selected">10:00</div>
+    </div>
+    <ul class="popup__colors">
+        <li class="popup__colors-item">
+            <label class="check option">
+                <input class="check__input visually-hidden" type="radio" name="colors" checked>
+                <span class="check__box"></span>
+            </label>
+        </li>
+        <li class="popup__colors-item">
+            <label class="check option">
+                <input class="check__input visually-hidden" type="radio" name="colors">
+                <span class="check__box"></span>
+            </label>
+        </li>
+        <li class="popup__colors-item">
+            <label class="check option">
+                <input class="check__input visually-hidden" type="radio" name="colors">
+                <span class="check__box"></span>
+            </label>
+        </li>
+        <li class="popup__colors-item">
+            <label class="check option">
+                <input class="check__input visually-hidden" type="radio" name="colors">
+                <span class="check__box"></span>
+            </label>
+        </li>
+        <li class="popup__colors-item">
+            <label class="check option">
+                <input class="check__input visually-hidden" type="radio" name="colors">
+                <span class="check__box"></span>
+            </label>
+        </li>
+        <li class="popup__colors-item">
+            <label class="check option">
+                <input class="check__input visually-hidden" type="radio" name="colors">
+                <span class="check__box"></span>
+            </label>
+        </li>
+    </ul>
+    <button class="popup__btn">Create</button>
+</form>
+<div class="overlay overlay_active js-overlay"></div>
 </body>
+<script src="js/script.js"></script>
 </html>
+

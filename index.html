@@ -5,6 +5,7 @@
     <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="js/libs/choices.min.css"/>
     <link rel="stylesheet" href="css/style.css">
     <title>Calendar app</title>
 </head>
@@ -14,7 +15,10 @@
         <div class="app__header">
             <h1 class="app__header-title">Calendar</h1>
             <div class="app__header-buttons">
-                <button class="app__header-button js-open-popup" type="button">New event</button>
+                <label for="members"></label>
+                <select class="app__header-button js-members" id="members" name="members"></select>
+                <button class="app__header-button js-open-popup" data-modal-target="#newEvent" type="button">New event
+                </button>
             </div>
         </div>
         <div class="app__body">
@@ -39,6 +43,9 @@
                     <li class="days__item">Fri</li>
                 </ol>
                 <div class="calendar">
+                    <div class="calendar__item planed">
+                        <p class="calendar__item-text">Kottans homework</p>
+                    </div>
                     <div class="calendar__item">Plan</div>
                     <div class="calendar__item">Plan</div>
                     <div class="calendar__item">Plan</div>
@@ -52,6 +59,9 @@
                     <div class="calendar__item">Plan</div>
                     <div class="calendar__item">Plan</div>
                     <div class="calendar__item">Plan</div>
+                    <div class="calendar__item planed">
+                        <p class="calendar__item-text">OOP</p>
+                    </div>
                     <div class="calendar__item">Plan</div>
                     <div class="calendar__item">Plan</div>
                     <div class="calendar__item">Plan</div>
@@ -60,9 +70,9 @@
                     <div class="calendar__item">Plan</div>
                     <div class="calendar__item">Plan</div>
                     <div class="calendar__item">Plan</div>
-                    <div class="calendar__item">Plan</div>
-                    <div class="calendar__item">Plan</div>
-                    <div class="calendar__item">Plan</div>
+                    <div class="calendar__item planed">
+                        <p class="calendar__item-text">KPI lecture</p>
+                    </div>
                     <div class="calendar__item">Plan</div>
                     <div class="calendar__item">Plan</div>
                     <div class="calendar__item">Plan</div>
@@ -89,52 +99,12 @@
         </div>
     </main>
 </div>
-<form class="popup popup_active js-popup">
+
+<form class="popup" id="newEvent">
     <button class="popup__close js-close-popup" type="button"></button>
     <label>
         <input class="popup__field" type="text" placeholder="Name of the event">
     </label>
-    <div class="popup__select-box">
-        <div class="options-container">
-            <div class="option">
-                <input class="radio" type="radio" id="10" name="time">
-                <label for="10">10:00</label>
-            </div>
-            <div class="option">
-                <input class="radio" type="radio" id="11" name="time">
-                <label for="11">11:00</label>
-            </div>
-            <div class="option">
-                <input class="radio" type="radio" id="12" name="time">
-                <label for="12">12:00</label>
-            </div>
-            <div class="option">
-                <input class="radio" type="radio" id="13" name="time">
-                <label for="13">13:00</label>
-            </div>
-            <div class="option">
-                <input class="radio" type="radio" id="14" name="time">
-                <label for="14">14:00</label>
-            </div>
-            <div class="option">
-                <input class="radio" type="radio" id="15" name="time">
-                <label for="15">15:00</label>
-            </div>
-            <div class="option">
-                <input class="radio" type="radio" id="16" name="time">
-                <label for="16">16:00</label>
-            </div>
-            <div class="option">
-                <input class="radio" type="radio" id="17" name="time">
-                <label for="17">17:00</label>
-            </div>
-            <div class="option">
-                <input class="radio" type="radio" id="18" name="time">
-                <label for="18">18:00</label>
-            </div>
-        </div>
-        <div class="popup__field selected">10:00</div>
-    </div>
     <ul class="popup__colors">
         <li class="popup__colors-item">
             <label class="check option">
@@ -175,8 +145,15 @@
     </ul>
     <button class="popup__btn">Create</button>
 </form>
-<div class="overlay overlay_active js-overlay"></div>
+
+<form class="popup">
+    <button class="popup__close js-close-popup" type="button"></button>
+    <p class="popup__text">Are you sure you want to delete "Kottans homework" event?</p>
+    <button class="popup__btn">Yes</button>
+</form>
+
+<div class="overlay js-overlay"></div>
 </body>
+<script src="js/libs/choices.min.js"></script>
 <script src="js/script.js"></script>
 </html>
-

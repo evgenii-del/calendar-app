@@ -1,38 +1,57 @@
-const selected = document.querySelector(".selected");
-const optionsContainer = document.querySelector(".options-container");
-const optionsList = document.querySelectorAll(".option");
-
-
-selected.addEventListener("click", () => {
-    optionsContainer.classList.toggle("active");
-})
-
-optionsList.forEach(o => {
-    o.addEventListener("click", () => {
-        selected.innerHTML = o.querySelector("label").innerHTML;
-        optionsContainer.classList.remove("active");
-    })
-})
-
-const openPopupButton = document.querySelector(".js-open-popup");
-const closePopupButton = document.querySelector(".js-close-popup");
-const popup = document.querySelector(".js-popup");
+const openPopupButtons = document.querySelectorAll(".js-open-popup");
+const closePopupButtons = document.querySelectorAll(".js-close-popup");
 const overlay = document.querySelector(".js-overlay");
 
 
-const togglePopup = () => {
+const togglePopup = popup => {
     popup.classList.toggle("popup_active");
     overlay.classList.toggle("overlay_active");
 }
 
-openPopupButton.addEventListener("click", () => {
-    togglePopup();
-});
+openPopupButtons.forEach(button => {
+    button.addEventListener("click", () => {
+        const popup = document.querySelector(button.dataset.modalTarget);
+        togglePopup(popup);
+    })
+})
 
-closePopupButton.addEventListener("click", () => {
-    togglePopup();
-});
+closePopupButtons.forEach(button => {
+    button.addEventListener("click", () => {
+        const popup = button.closest(".popup");
+        togglePopup(popup);
+    })
+})
 
 overlay.addEventListener("click", () => {
-    togglePopup();
+    const popup = document.querySelector(".popup.popup_active");
+    togglePopup(popup);
 })
+
+
+const meetings = document.querySelectorAll(".planed");
+
+
+meetings.forEach(o => {
+    o.addEventListener("click", () => {
+        console.log(this);
+    })
+})
+
+
+const defaultSelect = () => {
+    const element = document.querySelector('.js-members');
+    const choices = new Choices(element, {
+        searchEnabled: false,
+        itemSelectText: ""
+    });
+
+    choices.setChoices(
+        [
+            {value: 0, label: 'All members', selected: true},
+            {value: 1, label: 'John'},
+            {value: 2, label: 'Sam'}
+        ]
+    );
+}
+
+defaultSelect();

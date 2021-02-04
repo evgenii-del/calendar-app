@@ -16,7 +16,7 @@
             <h1 class="app__header-title">Calendar</h1>
             <div class="app__header-buttons">
                 <label for="members"></label>
-                <select class="app__header-button js-members" id="members" name="members"></select>
+                <select class="js-members" id="members" name="members"></select>
                 <button class="app__header-button js-open-popup" data-modal-target="#newEvent" type="button">New event
                 </button>
             </div>
@@ -102,9 +102,23 @@
 
 <form class="popup" id="newEvent">
     <button class="popup__close js-close-popup" type="button"></button>
-    <label>
+    <label class="popup__label">
         <input class="popup__field" type="text" placeholder="Name of the event">
     </label>
+
+    <label class="popup__label">
+        <select class="js-participants" name="participants" multiple></select>
+    </label>
+
+    <label class="popup__label">
+        <select class="js-days" name="days"></select>
+    </label>
+
+    <label class="popup__label">
+        <select class="js-times" name="times"></select>
+    </label>
+
+
     <ul class="popup__colors">
         <li class="popup__colors-item">
             <label class="check option">

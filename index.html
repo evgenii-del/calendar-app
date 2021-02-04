@@ -15,8 +15,9 @@
         <div class="app__header">
             <h1 class="app__header-title">Calendar</h1>
             <div class="app__header-buttons">
-                <label for="members"></label>
-                <select class="js-members" id="members" name="members"></select>
+                <label class="app__header-button-label">
+                    <select class="js-members" name="members"></select>
+                </label>
                 <button class="app__header-button js-open-popup" data-modal-target="#newEvent" type="button">New event
                 </button>
             </div>
@@ -42,130 +43,70 @@
                     <li class="days__item">Thu</li>
                     <li class="days__item">Fri</li>
                 </ol>
-                <div class="calendar">
-                    <div class="calendar__item planed">
-                        <p class="calendar__item-text">Kottans homework</p>
-                    </div>
-                    <div class="calendar__item">Plan</div>
-                    <div class="calendar__item">Plan</div>
-                    <div class="calendar__item">Plan</div>
-                    <div class="calendar__item">Plan</div>
-                    <div class="calendar__item">Plan</div>
-                    <div class="calendar__item">Plan</div>
-                    <div class="calendar__item">Plan</div>
-                    <div class="calendar__item">Plan</div>
-                    <div class="calendar__item">Plan</div>
-                    <div class="calendar__item">Plan</div>
-                    <div class="calendar__item">Plan</div>
-                    <div class="calendar__item">Plan</div>
-                    <div class="calendar__item">Plan</div>
-                    <div class="calendar__item planed">
-                        <p class="calendar__item-text">OOP</p>
-                    </div>
-                    <div class="calendar__item">Plan</div>
-                    <div class="calendar__item">Plan</div>
-                    <div class="calendar__item">Plan</div>
-                    <div class="calendar__item">Plan</div>
-                    <div class="calendar__item">Plan</div>
-                    <div class="calendar__item">Plan</div>
-                    <div class="calendar__item">Plan</div>
-                    <div class="calendar__item">Plan</div>
-                    <div class="calendar__item planed">
-                        <p class="calendar__item-text">KPI lecture</p>
-                    </div>
-                    <div class="calendar__item">Plan</div>
-                    <div class="calendar__item">Plan</div>
-                    <div class="calendar__item">Plan</div>
-                    <div class="calendar__item">Plan</div>
-                    <div class="calendar__item">Plan</div>
-                    <div class="calendar__item">Plan</div>
-                    <div class="calendar__item">Plan</div>
-                    <div class="calendar__item">Plan</div>
-                    <div class="calendar__item">Plan</div>
-                    <div class="calendar__item">Plan</div>
-                    <div class="calendar__item">Plan</div>
-                    <div class="calendar__item">Plan</div>
-                    <div class="calendar__item">Plan</div>
-                    <div class="calendar__item">Plan</div>
-                    <div class="calendar__item">Plan</div>
-                    <div class="calendar__item">Plan</div>
-                    <div class="calendar__item">Plan</div>
-                    <div class="calendar__item">Plan</div>
-                    <div class="calendar__item">Plan</div>
-                    <div class="calendar__item">Plan</div>
-                    <div class="calendar__item">Plan</div>
-                </div>
+                <div class="calendar js-calendar"></div>
             </div>
         </div>
     </main>
 </div>
-
 <form class="popup" id="newEvent">
     <button class="popup__close js-close-popup" type="button"></button>
     <label class="popup__label">
-        <input class="popup__field" type="text" placeholder="Name of the event">
+        <input class="popup__field" name="title" type="text" placeholder="Name of the event">
     </label>
-
     <label class="popup__label">
         <select class="js-participants" name="participants" multiple></select>
     </label>
-
     <label class="popup__label">
         <select class="js-days" name="days"></select>
     </label>
-
     <label class="popup__label">
         <select class="js-times" name="times"></select>
     </label>
-
-
     <ul class="popup__colors">
         <li class="popup__colors-item">
             <label class="check option">
-                <input class="check__input visually-hidden" type="radio" name="colors" checked>
-                <span class="check__box"></span>
+                <input class="check__input visually-hidden" value="yellow" type="radio" name="colors" checked>
+                <span class="check__box yellow"></span>
             </label>
         </li>
         <li class="popup__colors-item">
             <label class="check option">
-                <input class="check__input visually-hidden" type="radio" name="colors">
-                <span class="check__box"></span>
+                <input class="check__input visually-hidden" value="green" type="radio" name="colors">
+                <span class="check__box green"></span>
             </label>
         </li>
         <li class="popup__colors-item">
             <label class="check option">
-                <input class="check__input visually-hidden" type="radio" name="colors">
-                <span class="check__box"></span>
+                <input class="check__input visually-hidden" value="red" type="radio" name="colors">
+                <span class="check__box red"></span>
             </label>
         </li>
         <li class="popup__colors-item">
             <label class="check option">
-                <input class="check__input visually-hidden" type="radio" name="colors">
-                <span class="check__box"></span>
+                <input class="check__input visually-hidden" value="khaki" type="radio" name="colors">
+                <span class="check__box khaki"></span>
             </label>
         </li>
         <li class="popup__colors-item">
             <label class="check option">
-                <input class="check__input visually-hidden" type="radio" name="colors">
-                <span class="check__box"></span>
+                <input class="check__input visually-hidden" value="violet" type="radio" name="colors">
+                <span class="check__box violet"></span>
             </label>
         </li>
         <li class="popup__colors-item">
             <label class="check option">
-                <input class="check__input visually-hidden" type="radio" name="colors">
-                <span class="check__box"></span>
+                <input class="check__input visually-hidden" value="blue" type="radio" name="colors">
+                <span class="check__box blue"></span>
             </label>
         </li>
     </ul>
     <button class="popup__btn">Create</button>
 </form>
-
-<form class="popup">
+<div class="popup">
     <button class="popup__close js-close-popup" type="button"></button>
     <p class="popup__text">Are you sure you want to delete "Kottans homework" event?</p>
     <button class="popup__btn">Yes</button>
-</form>
-
+</div>
 <div class="overlay js-overlay"></div>
 </body>
 <script src="js/libs/choices.min.js"></script>

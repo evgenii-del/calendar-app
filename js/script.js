@@ -37,6 +37,7 @@ const calendarData = {
     },
     11: {
         "Monday": {
+            participants: [1, 3],
             title: "Ciclum task",
             color: "yellow",
             reserved: true
@@ -52,6 +53,7 @@ const calendarData = {
         "Wednesday": {},
         "Thursday": {},
         "Friday": {
+            participants: [1, 2, 5],
             title: "Insurance",
             color: "green",
             reserved: true
@@ -74,11 +76,7 @@ const calendarData = {
     15: {
         "Monday": {},
         "Tuesday": {},
-        "Wednesday": {
-            title: "OOP",
-            color: "khaki",
-            reserved: true
-        },
+        "Wednesday": {},
         "Thursday": {},
         "Friday": {}
     },
@@ -101,11 +99,7 @@ const calendarData = {
         "Tuesday": {},
         "Wednesday": {},
         "Thursday": {},
-        "Friday": {
-            title: "Kottans homework",
-            color: "red",
-            reserved: true
-        }
+        "Friday": {}
     }
 }
 
@@ -180,21 +174,17 @@ defaultSelect();
 const forms = document.forms;
 const form = forms[0];
 
-const isCheckbox = type => ["checkbox"].includes(type);
 const isRadio = type => ["radio"].includes(type);
 
-const titleValidation = title => {
-    return title.length > 3;
-}
-
-const timeValidation = (time, day) => {
-    return !calendarData[time][day].reserved;
-}
+const titleValidation = title => title.length > 3;
+const timeValidation = (time, day) => !calendarData[time][day].reserved;
+const participantsValidation = participants => participants.length;
 
 const addNewMeet = values => {
-    const {times, days, title, colors} = values;
+    const {times, days, title, colors, participants} = values;
 
     calendarData[times][days] = {
+        participants,
         title,
         color: colors,
         reserved: true
@@ -214,9 +204,9 @@ const hidePopupError = () => {
 }
 
 const formValidation = values => {
-    const {times, days, title} = values;
+    const {times, days, title, participants} = values;
 
-    if (timeValidation(times, days) && titleValidation(title)) {
+    if (timeValidation(times, days) && titleValidation(title) && participantsValidation(participants)) {
         addNewMeet(values);
         togglePopup(popup);
         hidePopupError();
@@ -232,16 +222,19 @@ const retrieveFormValue = event => {
         const {name} = field;
 
         if (name) {
-            const {type, checked, value} = field;
+            const {type, value} = field;
 
-            if (isCheckbox(type)) {
-                values[name] = checked;
-            } else if (isRadio(type)) {
+            if (isRadio(type)) {
                 if (field.checked) {
                     values[name] = value;
                 }
             } else {
-                values[name] = value;
+                if (name === "participants") {
+                    const select = document.querySelector(".js-participants");
+                    values["participants"] = [...select.options].map(option => option.value);
+                } else {
+                    values[name] = value;
+                }
             }
         }
     }

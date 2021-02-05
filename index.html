@@ -18,8 +18,7 @@
                 <label class="app__header-button-label">
                     <select class="js-members" name="members"></select>
                 </label>
-                <button class="app__header-button js-open-popup" data-modal-target="#newEvent" type="button">New event
-                </button>
+                <button class="app__header-button js-open-popup" type="button">New event</button>
             </div>
         </div>
         <div class="app__body">
@@ -48,7 +47,10 @@
         </div>
     </main>
 </div>
-<form class="popup" id="newEvent">
+<div class="popup_error js-popup_error">
+    <p>The selected time is already taken or you entered too short a title</p>
+</div>
+<form class="popup js-popup">
     <button class="popup__close js-close-popup" type="button"></button>
     <label class="popup__label">
         <input class="popup__field" name="title" type="text" placeholder="Name of the event">
@@ -102,11 +104,11 @@
     </ul>
     <button class="popup__btn">Create</button>
 </form>
-<div class="popup">
-    <button class="popup__close js-close-popup" type="button"></button>
-    <p class="popup__text">Are you sure you want to delete "Kottans homework" event?</p>
-    <button class="popup__btn">Yes</button>
-</div>
+<!--<div class="popup">-->
+<!--    <button class="popup__close js-close-popup" type="button"></button>-->
+<!--    <p class="popup__text">Are you sure you want to delete "Kottans homework" event?</p>-->
+<!--    <button class="popup__btn">Yes</button>-->
+<!--</div>-->
 <div class="overlay js-overlay"></div>
 </body>
 <script src="js/libs/choices.min.js"></script>

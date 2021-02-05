@@ -109,9 +109,9 @@ const calendarData = {
     }
 }
 
-
 const openPopupButtons = document.querySelectorAll(".js-open-popup");
 const closePopupButtons = document.querySelectorAll(".js-close-popup");
+const popup = document.querySelector(".js-popup");
 const overlay = document.querySelector(".js-overlay");
 
 
@@ -122,20 +122,17 @@ const togglePopup = popup => {
 
 openPopupButtons.forEach(button => {
     button.addEventListener("click", () => {
-        const popup = document.querySelector(button.dataset.modalTarget);
         togglePopup(popup);
     })
 })
 
 closePopupButtons.forEach(button => {
     button.addEventListener("click", () => {
-        const popup = button.closest(".popup");
         togglePopup(popup);
     })
 })
 
 overlay.addEventListener("click", () => {
-    const popup = document.querySelector(".popup.popup_active");
     togglePopup(popup);
 })
 
@@ -206,17 +203,31 @@ const addNewMeet = values => {
     renderCalendar();
 }
 
+const popupError = document.querySelector(".js-popup_error");
+
+const showPopupError = () => {
+    popupError.classList.add("popup_active");
+}
+
+const hidePopupError = () => {
+    popupError.classList.remove("popup_active");
+}
+
 const formValidation = values => {
     const {times, days, title} = values;
-    console.log("time validation", timeValidation(times, days));
-    console.log("title validation", titleValidation(title));
-    addNewMeet(values);
+
+    if (timeValidation(times, days) && titleValidation(title)) {
+        addNewMeet(values);
+        togglePopup(popup);
+        hidePopupError();
+    } else {
+        showPopupError();
+    }
 }
 
 const retrieveFormValue = event => {
     event.preventDefault();
     const values = {};
-
     for (let field of form) {
         const {name} = field;
 
@@ -235,42 +246,40 @@ const retrieveFormValue = event => {
         }
     }
     formValidation(values);
-    togglePopup();
 }
 
 form.addEventListener('submit', retrieveFormValue);
 
 const membersSelect = document.querySelector(".js-members");
+
 membersSelect.addEventListener("change", ({target}) => {
     console.log(target.value)
 })
 
 const calendar = document.querySelector(".js-calendar");
 
-const renderCalendar = () => {
-    let fragment = document.createDocumentFragment();
-    calendar.innerHTML = "";
+const createBlock = data => {
+    const {reserved, color, title} = data;
+    const block = document.createElement("div");
+    if (reserved) {
+        block.className = `calendar__item reserved ${color}`;
+        block.innerHTML = `<p class="calendar__item-text">${title}</p>`;
+    } else {
+        block.className = "calendar__item";
+        block.innerHTML = `<p class="calendar__item-text">Plan</p>`;
+    }
+    return block;
+}
 
+const renderCalendar = () => {
+    const fragment = document.createDocumentFragment();
+    calendar.innerHTML = "";
     Object.values(calendarData).forEach(time => {
         Object.values(time).forEach(day => {
-            const block = document.createElement("div");
-
-            if (day.reserved) {
-                block.className = `calendar__item reserved ${day.color}`;
-                block.innerHTML = `
-                <p class="calendar__item-text">${day.title}</p>
-                `;
-            } else {
-                block.className = "calendar__item";
-                block.innerHTML = `
-                <p class="calendar__item-text">Plan</p>
-                `;
-            }
-
+            const block = createBlock(day);
             fragment.appendChild(block);
         })
     })
-
     calendar.appendChild(fragment);
 }
 

@@ -178,7 +178,26 @@ body {
     padding: 15px;
 }
 
-.popup.popup_active,
+.popup_error {
+    text-align: center;
+    position: fixed;
+    top: 25%;
+    left: 50%;
+    transform: translate(-50%, -75%);
+    z-index: 15;
+    display: none;
+    margin: 0 auto;
+    flex-direction: column;
+    justify-content: space-between;
+    max-width: 320px;
+    width: 100%;
+    background: #FFFFFF;
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    padding: 15px;
+}
+
+.popup_active,
 .popup__colors,
 .option {
     display: flex;

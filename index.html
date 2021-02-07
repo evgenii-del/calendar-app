@@ -47,7 +47,7 @@
         </div>
     </main>
 </div>
-<div class="popup_error js-popup_error">
+<div class="popup popup_error js-popup_error">
     <p>The selected time is already taken or you entered too short a title</p>
 </div>
 <form class="popup js-popup">
@@ -104,11 +104,13 @@
     </ul>
     <button class="popup__btn">Create</button>
 </form>
-<!--<div class="popup">-->
-<!--    <button class="popup__close js-close-popup" type="button"></button>-->
-<!--    <p class="popup__text">Are you sure you want to delete "Kottans homework" event?</p>-->
-<!--    <button class="popup__btn">Yes</button>-->
-<!--</div>-->
+
+<div class="popup popup_confirmation js-popup_confirmation">
+    <button class="popup__close js-close-popup" type="button"></button>
+    <p class="popup__text">Are you sure you want to delete "Kottans homework" event?</p>
+    <button class="popup__btn">Yes</button>
+</div>
+
 <div class="overlay js-overlay"></div>
 </body>
 <script src="js/libs/choices.min.js"></script>

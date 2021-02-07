@@ -1,4 +1,4 @@
-* {
+*, *::before, *::after {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -130,6 +130,9 @@ body {
 
 .calendar .calendar__item {
     padding: 15px 5px;
+    margin: 1px;
+    min-height: 51px;
+    border: 1px solid #eef1f9;
     text-align: center;
 }
 
@@ -360,5 +363,38 @@ body {
 }
 
 .popup .choices[data-type*=select-multiple] .choices__inner {
-    padding: 7.5px 12px 3.75px;
+    padding: 7px 12px 4px;
+}
+
+
+@media (max-width: 1024px) {
+    .app {
+        padding: 50px 25px;
+    }
+}
+
+@media (max-width: 720px) {
+    .app {
+        padding: 50px 5px;
+    }
+
+    .times .times__item {
+        padding: 15px 5px;
+    }
+
+    .times .times__title,
+    .times .times__minute {
+        display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .app .app__header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .app .app__header-title {
+        margin-bottom: 15px;
+    }
 }

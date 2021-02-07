@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -23,16 +24,16 @@
         </div>
         <div class="app__body">
             <ol class="app__times times">
-                <li class="times__item">Name</li>
-                <li class="times__item">10:00</li>
-                <li class="times__item">11:00</li>
-                <li class="times__item">12:00</li>
-                <li class="times__item">13:00</li>
-                <li class="times__item">14:00</li>
-                <li class="times__item">15:00</li>
-                <li class="times__item">16:00</li>
-                <li class="times__item">17:00</li>
-                <li class="times__item">18:00</li>
+                <li class="times__item">N<span class="times__title">ame</span></li>
+                <li class="times__item">10<span class="times__minute">:00</span></li>
+                <li class="times__item">11<span class="times__minute">:00</span></li>
+                <li class="times__item">12<span class="times__minute">:00</span></li>
+                <li class="times__item">13<span class="times__minute">:00</span></li>
+                <li class="times__item">14<span class="times__minute">:00</span></li>
+                <li class="times__item">15<span class="times__minute">:00</span></li>
+                <li class="times__item">16<span class="times__minute">:00</span></li>
+                <li class="times__item">17<span class="times__minute">:00</span></li>
+                <li class="times__item">18<span class="times__minute">:00</span></li>
             </ol>
             <div class="app__content">
                 <ol class="app__days days">
@@ -104,15 +105,13 @@
     </ul>
     <button class="popup__btn">Create</button>
 </form>
-
 <div class="popup popup_confirmation js-popup_confirmation">
     <button class="popup__close js-close-popup" type="button"></button>
-    <p class="popup__text">Are you sure you want to delete "Kottans homework" event?</p>
-    <button class="popup__btn">Yes</button>
+    <p class="popup__text"></p>
+    <button class="popup__btn js-popup__btn">Yes</button>
 </div>
-
 <div class="overlay js-overlay"></div>
-</body>
 <script src="js/libs/choices.min.js"></script>
 <script src="js/script.js"></script>
+</body>
 </html>

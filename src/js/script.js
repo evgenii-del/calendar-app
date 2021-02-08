@@ -157,10 +157,10 @@ const selectEvent = target => {
 }
 
 const createBlock = (data, selectedParticipant) => {
-    const {color, title, participants, id} = data;
+    const {color, title, participants, reserved, id} = data;
     const block = document.createElement("div");
 
-    if (!+selectedParticipant || +selectedParticipant && participants && participants.includes(selectedParticipant)) {
+    if (participants && participants.includes(selectedParticipant) || selectedParticipant === "0" && reserved) {
         block.className = `calendar__item reserved ${color}`;
         block.dataset.id = id;
         block.innerHTML = `<p class="calendar__item-text">${title}</p>`;
@@ -202,5 +202,5 @@ document.addEventListener('DOMContentLoaded', () => {
     popupButton.addEventListener("click", ({target}) => removeEvent(target.dataset.id));
     // membersSelect.addEventListener("change", ({target}) => renderCalendar(target.value));
 
-    renderCalendar("0");
+    renderCalendar("2");
 })

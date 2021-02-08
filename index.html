@@ -6,7 +6,6 @@
     <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="js/libs/choices.min.css"/>
     <link rel="stylesheet" href="css/style.css">
     <title>Calendar app</title>
 </head>
@@ -16,9 +15,9 @@
         <div class="app__header">
             <h1 class="app__header-title">Calendar</h1>
             <div class="app__header-buttons">
-                <label class="app__header-button-label">
-                    <select class="js-members" name="members"></select>
-                </label>
+                <!--                <label class="app__header-button-label">-->
+                <!--                    <select class="js-members" name="members"></select>-->
+                <!--                </label>-->
                 <button class="app__header-button js-open-popup" type="button">New event</button>
             </div>
         </div>
@@ -56,15 +55,15 @@
     <label class="popup__label">
         <input class="popup__field" name="title" type="text" placeholder="Name of the event">
     </label>
-    <label class="popup__label">
-        <select class="js-participants" name="participants" multiple></select>
-    </label>
-    <label class="popup__label">
-        <select class="js-days" name="days"></select>
-    </label>
-    <label class="popup__label">
-        <select class="js-times" name="times"></select>
-    </label>
+    <!--    <label class="popup__label">-->
+    <!--        <select class="js-participants" name="participants" multiple></select>-->
+    <!--    </label>-->
+    <!--    <label class="popup__label">-->
+    <!--        <select class="js-days" name="days"></select>-->
+    <!--    </label>-->
+    <!--    <label class="popup__label">-->
+    <!--        <select class="js-times" name="times"></select>-->
+    <!--    </label>-->
     <ul class="popup__colors">
         <li class="popup__colors-item">
             <label class="check option">
@@ -111,7 +110,6 @@
     <button class="popup__btn js-popup__btn">Yes</button>
 </div>
 <div class="overlay js-overlay"></div>
-<script src="js/libs/choices.min.js"></script>
 <script src="js/script.js"></script>
 </body>
 </html>

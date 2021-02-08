@@ -1,18 +1,18 @@
-const usersArr = [
-    {value: 1, label: 'John'},
-    {value: 2, label: 'Sam'},
-    {value: 3, label: 'Ann'},
-    {value: 4, label: 'Tommy'},
-    {value: 5, label: 'Hanna'},
-    {value: 6, label: 'Kenny'}
-]
-const daysOfWeekArr = [
-    {value: 'Monday', label: 'Monday', selected: true},
-    {value: 'Tuesday', label: 'Tuesday'},
-    {value: 'Wednesday', label: 'Wednesday'},
-    {value: 'Thursday', label: 'Thursday'},
-    {value: 'Friday', label: 'Friday'}
-]
+// const usersArr = [
+//     {value: 1, label: 'John'},
+//     {value: 2, label: 'Sam'},
+//     {value: 3, label: 'Ann'},
+//     {value: 4, label: 'Tommy'},
+//     {value: 5, label: 'Hanna'},
+//     {value: 6, label: 'Kenny'}
+// ]
+// const daysOfWeekArr = [
+//     {value: 'Monday', label: 'Monday', selected: true},
+//     {value: 'Tuesday', label: 'Tuesday'},
+//     {value: 'Wednesday', label: 'Wednesday'},
+//     {value: 'Thursday', label: 'Thursday'},
+//     {value: 'Friday', label: 'Friday'}
+// ]
 const timesArr = [10, 11, 12, 13, 14, 15, 16, 17, 18];
 const timesSelectArr = timesArr.map(el => new Object({value: el, label: `${el}:00`}));
 timesSelectArr[0]["selected"] = true;
@@ -62,36 +62,21 @@ const openPopupButton = document.querySelector(".js-open-popup");
 const closePopupButtons = document.querySelectorAll(".js-close-popup");
 const popup = document.querySelector(".js-popup");
 const overlay = document.querySelector(".js-overlay");
-const membersChoice = document.querySelector('.js-members');
-const daysChoice = document.querySelector('.js-days');
-const timesChoice = document.querySelector('.js-times');
-const participantsChoice = document.querySelector('.js-participants');
+// const membersChoice = document.querySelector('.js-members');
+// const daysChoice = document.querySelector('.js-days');
+// const timesChoice = document.querySelector('.js-times');
+// const participantsChoice = document.querySelector('.js-participants');
+// const membersSelect = document.querySelector(".js-members");
 const popupError = document.querySelector(".js-popup_error");
-const membersSelect = document.querySelector(".js-members");
 const calendar = document.querySelector(".js-calendar");
 const popupConfirmation = document.querySelector(".js-popup_confirmation");
 const popupButton = document.querySelector(".js-popup__btn");
 const forms = document.forms;
 const form = forms[0];
 
-const choices = [membersChoice, daysChoice, timesChoice, participantsChoice].map(choice => new Choices(choice, {
-    searchEnabled: false,
-    shouldSort: false,
-    itemSelectText: ""
-}))
-
 const togglePopup = popup => {
     popup.classList.toggle("popup_active");
     overlay.classList.toggle("overlay_active");
-}
-
-const setDefaultChoices = () => {
-    choices.forEach(choice => choice.clearChoices());
-
-    choices[0].setChoices([{value: 0, label: 'All members', selected: true}, ...usersArr]);
-    choices[1].setChoices([...daysOfWeekArr]);
-    choices[2].setChoices([...timesSelectArr]);
-    choices[3].setChoices([...usersArr]);
 }
 
 const isRadio = type => ["radio"].includes(type);
@@ -124,7 +109,6 @@ const formValidation = values => {
         togglePopup(popup);
         hidePopupError();
         form.reset();
-        setDefaultChoices();
     } else {
         showPopupError();
     }
@@ -160,7 +144,6 @@ const removeEvent = id => {
     calendarData[time][day] = {};
     renderCalendar(0);
     togglePopup(popupConfirmation);
-    setDefaultChoices();
 }
 
 const selectEvent = target => {
@@ -217,8 +200,7 @@ document.addEventListener('DOMContentLoaded', () => {
     openPopupButton.addEventListener("click", () => togglePopup(popup));
     calendar.addEventListener("click", ({target}) => selectEvent(target));
     popupButton.addEventListener("click", ({target}) => removeEvent(target.dataset.id));
-    membersSelect.addEventListener("change", ({target}) => renderCalendar(target.value));
+    // membersSelect.addEventListener("change", ({target}) => renderCalendar(target.value));
 
-    setDefaultChoices();
     renderCalendar("0");
 })

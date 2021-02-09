@@ -142,7 +142,7 @@ const retrieveFormValue = event => {
 const removeEvent = id => {
     const [time, day] = id.split("-");
     calendarData[time][day] = {};
-    renderCalendar(0);
+    renderCalendar("0");
     togglePopup(popupConfirmation);
 }
 
@@ -200,7 +200,28 @@ document.addEventListener('DOMContentLoaded', () => {
     openPopupButton.addEventListener("click", () => togglePopup(popup));
     calendar.addEventListener("click", ({target}) => selectEvent(target));
     popupButton.addEventListener("click", ({target}) => removeEvent(target.dataset.id));
-    // membersSelect.addEventListener("change", ({target}) => renderCalendar(target.value));
 
-    renderCalendar("2");
+    renderCalendar("0");
 })
+
+for (const option of document.querySelectorAll(".custom-option")) {
+    option.addEventListener('click', function ({target}) {
+        if (!this.classList.contains('selected')) {
+            if (this.classList.contains('option-member')) {
+                renderCalendar(target.dataset.value);
+            }
+            this.parentNode.querySelector('.custom-option.selected').classList.remove('selected');
+            this.classList.add('selected');
+            this.closest('.custom-select').querySelector('.custom-select__trigger span').textContent = this.textContent;
+        }
+    })
+}
+
+document.querySelectorAll('.custom-select-wrapper').forEach(select => select.addEventListener('click', function () {
+    this.querySelector('.custom-select').classList.toggle('open');
+}))
+
+window.addEventListener('click', ({target}) => {
+    const select = document.querySelector('.custom-select')
+    if (!select.contains(target)) select.classList.remove('open');
+});

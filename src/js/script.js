@@ -1,18 +1,3 @@
-// const usersArr = [
-//     {value: 1, label: 'John'},
-//     {value: 2, label: 'Sam'},
-//     {value: 3, label: 'Ann'},
-//     {value: 4, label: 'Tommy'},
-//     {value: 5, label: 'Hanna'},
-//     {value: 6, label: 'Kenny'}
-// ]
-// const daysOfWeekArr = [
-//     {value: 'Monday', label: 'Monday', selected: true},
-//     {value: 'Tuesday', label: 'Tuesday'},
-//     {value: 'Wednesday', label: 'Wednesday'},
-//     {value: 'Thursday', label: 'Thursday'},
-//     {value: 'Friday', label: 'Friday'}
-// ]
 const timesArr = [10, 11, 12, 13, 14, 15, 16, 17, 18];
 const timesSelectArr = timesArr.map(el => new Object({value: el, label: `${el}:00`}));
 timesSelectArr[0]["selected"] = true;
@@ -58,19 +43,15 @@ calendarData["14"] = {
     }
 }
 // Remove
+const popup = document.querySelector(".js-popup");
+const popupError = document.querySelector(".js-popup_error");
+const popupButton = document.querySelector(".js-popup__btn");
 const openPopupButton = document.querySelector(".js-open-popup");
 const closePopupButtons = document.querySelectorAll(".js-close-popup");
-const popup = document.querySelector(".js-popup");
-const overlay = document.querySelector(".js-overlay");
-// const membersChoice = document.querySelector('.js-members');
-// const daysChoice = document.querySelector('.js-days');
-// const timesChoice = document.querySelector('.js-times');
-// const participantsChoice = document.querySelector('.js-participants');
-// const membersSelect = document.querySelector(".js-members");
-const popupError = document.querySelector(".js-popup_error");
-const calendar = document.querySelector(".js-calendar");
 const popupConfirmation = document.querySelector(".js-popup_confirmation");
-const popupButton = document.querySelector(".js-popup__btn");
+const overlay = document.querySelector(".js-overlay");
+const calendar = document.querySelector(".js-calendar");
+const membersSelect = document.querySelector(".js-members");
 const forms = document.forms;
 const form = forms[0];
 
@@ -108,6 +89,7 @@ const formValidation = values => {
         addNewMeet(values);
         togglePopup(popup);
         hidePopupError();
+        renderCalendar("0");
         form.reset();
     } else {
         showPopupError();
@@ -124,13 +106,12 @@ const retrieveFormValue = event => {
         if (name) {
             const {type, value} = field;
 
-            if (isRadio(type)) {
+            if (name === "participants") {
+                values["participants"] = [...field.options].filter((x) => x.selected).map((x) => x.value);
+            } else if (isRadio(type)) {
                 if (field.checked) {
                     values[name] = value;
                 }
-            } else if (name === "participants") {
-                const select = document.querySelector(".js-participants");
-                values["participants"] = [...select.options].map(option => option.value);
             } else {
                 values[name] = value;
             }
@@ -187,6 +168,7 @@ document.addEventListener('DOMContentLoaded', () => {
     closePopupButtons.forEach(button => {
         button.addEventListener("click", () => {
             const popup = button.closest(".popup");
+            hidePopupError();
             togglePopup(popup);
         })
     })
@@ -199,29 +181,8 @@ document.addEventListener('DOMContentLoaded', () => {
     form.addEventListener('submit', retrieveFormValue);
     openPopupButton.addEventListener("click", () => togglePopup(popup));
     calendar.addEventListener("click", ({target}) => selectEvent(target));
+    membersSelect.addEventListener("click", ({target}) => renderCalendar(target.value));
     popupButton.addEventListener("click", ({target}) => removeEvent(target.dataset.id));
 
     renderCalendar("0");
 })
-
-for (const option of document.querySelectorAll(".custom-option")) {
-    option.addEventListener('click', function ({target}) {
-        if (!this.classList.contains('selected')) {
-            if (this.classList.contains('option-member')) {
-                renderCalendar(target.dataset.value);
-            }
-            this.parentNode.querySelector('.custom-option.selected').classList.remove('selected');
-            this.classList.add('selected');
-            this.closest('.custom-select').querySelector('.custom-select__trigger span').textContent = this.textContent;
-        }
-    })
-}
-
-document.querySelectorAll('.custom-select-wrapper').forEach(select => select.addEventListener('click', function () {
-    this.querySelector('.custom-select').classList.toggle('open');
-}))
-
-window.addEventListener('click', ({target}) => {
-    const select = document.querySelector('.custom-select')
-    if (!select.contains(target)) select.classList.remove('open');
-});

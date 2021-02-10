@@ -14,29 +14,20 @@
         <div class="app__header">
             <h1 class="app__header-title">Calendar</h1>
             <div class="app__header-buttons">
-                <!--                <label class="app__header-button-label">-->
-                <!--                    <select class="js-members" name="members"></select>-->
-                <!--                </label>-->
-
-
-                <div class="custom-select-wrapper custom-select-wrapper-member">
-                    <div class="custom-select">
-                        <div class="custom-select__trigger custom-select__trigger-member"><span>All members</span>
-                            <div class="arrow"></div>
-                        </div>
-                        <div class="custom-options">
-                            <span class="custom-option option-member selected" data-value="0">All members</span>
-                            <span class="custom-option option-member" data-value="1">John</span>
-                            <span class="custom-option option-member" data-value="2">Sam</span>
-                            <span class="custom-option option-member" data-value="3">Ann</span>
-                            <span class="custom-option option-member" data-value="4">Tommy</span>
-                            <span class="custom-option option-member" data-value="5">Hanna</span>
-                            <span class="custom-option option-member" data-value="6">Kenny</span>
-                        </div>
+                <label>
+                    <div class="select custom-select-wrapper-form">
+                        <select class="js-members">
+                            <option value="0" selected>All members</option>
+                            <option value="1">John</option>
+                            <option value="2">Sam</option>
+                            <option value="3">Ann</option>
+                            <option value="4">Tommy</option>
+                            <option value="5">Hanna</option>
+                            <option value="6">Kenny</option>
+                        </select>
+                        <span class="focus"></span>
                     </div>
-                </div>
-
-
+                </label>
                 <button class="app__header-button js-open-popup" type="button">New event</button>
             </div>
         </div>
@@ -74,66 +65,47 @@
     <label class="popup__label">
         <input class="popup__field" name="title" type="text" placeholder="Name of the event">
     </label>
-
-    <div class="custom-select-wrapper custom-select-wrapper-form">
-        <div class="custom-select">
-            <div class="custom-select__trigger"><span>Monday</span>
-                <div class="arrow"></div>
-            </div>
-            <div class="custom-options">
-                <span class="custom-option selected" data-value="1">John</span>
-                <span class="custom-option" data-value="2">Sam</span>
-                <span class="custom-option" data-value="3">Ann</span>
-                <span class="custom-option" data-value="4">Tommy</span>
-                <span class="custom-option" data-value="5">Hanna</span>
-                <span class="custom-option" data-value="6">Kenny</span>
-            </div>
+    <label class="popup__label">
+        <div class="select select--multiple custom-select-wrapper-form">
+            <select class="select-multiple" name="participants" size="3" multiple>
+                <option value="1">John</option>
+                <option value="2">Sam</option>
+                <option value="3">Ann</option>
+                <option value="4">Tommy</option>
+                <option value="5">Hanna</option>
+                <option value="6">Kenny</option>
+            </select>
+            <span class="focus"></span>
         </div>
-    </div>
-
-    <div class="custom-select-wrapper custom-select-wrapper-form">
-        <div class="custom-select">
-            <div class="custom-select__trigger"><span>10:00</span>
-                <div class="arrow"></div>
-            </div>
-            <div class="custom-options">
-                <span class="custom-option option-time selected" data-value="10">10:00</span>
-                <span class="custom-option option-time" data-value="11">11:00</span>
-                <span class="custom-option option-time" data-value="12">12:00</span>
-                <span class="custom-option option-time" data-value="13">13:00</span>
-                <span class="custom-option option-time" data-value="14">14:00</span>
-                <span class="custom-option option-time" data-value="15">15:00</span>
-                <span class="custom-option option-time" data-value="16">16:00</span>
-                <span class="custom-option option-time" data-value="17">17:00</span>
-                <span class="custom-option option-time" data-value="18">18:00</span>
-            </div>
+    </label>
+    <label class="popup__label">
+        <div class="select custom-select-wrapper-form">
+            <select name="times">
+                <option value="10">10:00</option>
+                <option value="11" selected>11:00</option>
+                <option value="12">12:00</option>
+                <option value="13">13:00</option>
+                <option value="14">14:00</option>
+                <option value="15">15:00</option>
+                <option value="16">16:00</option>
+                <option value="17">17:00</option>
+                <option value="18">18:00</option>
+            </select>
+            <span class="focus"></span>
         </div>
-    </div>
-
-    <div class="custom-select-wrapper custom-select-wrapper-form">
-        <div class="custom-select">
-            <div class="custom-select__trigger"><span>Monday</span>
-                <div class="arrow"></div>
-            </div>
-            <div class="custom-options">
-                <span class="custom-option option-week selected" data-value="Monday">Monday</span>
-                <span class="custom-option option-week" data-value="Tuesday">Tuesday</span>
-                <span class="custom-option option-week" data-value="Wednesday">Wednesday</span>
-                <span class="custom-option option-week" data-value="Thursday">Thursday</span>
-                <span class="custom-option option-week" data-value="Friday">Friday</span>
-            </div>
+    </label>
+    <label class="popup__label">
+        <div class="select custom-select-wrapper-form">
+            <select name="days">
+                <option value="Monday">Monday</option>
+                <option value="Tuesday" selected>Tuesday</option>
+                <option value="Wednesday">Wednesday</option>
+                <option value="Thursday">Thursday</option>
+                <option value="Friday">Friday</option>
+            </select>
+            <span class="focus"></span>
         </div>
-    </div>
-
-    <!--    <label class="popup__label">-->
-    <!--        <select class="js-participants" name="participants" multiple></select>-->
-    <!--    </label>-->
-    <!--    <label class="popup__label">-->
-    <!--        <select class="js-days" name="days"></select>-->
-    <!--    </label>-->
-    <!--    <label class="popup__label">-->
-    <!--        <select class="js-times" name="times"></select>-->
-    <!--    </label>-->
+    </label>
     <ul class="popup__colors">
         <li class="popup__colors-item">
             <label class="check option">

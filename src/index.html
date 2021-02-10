@@ -3,9 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="shortcut icon" href="assets/favicon.ico" type="image/x-icon">
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <title>Calendar app</title>
 </head>
 <body>
@@ -15,7 +13,7 @@
             <h1 class="app__header-title">Calendar</h1>
             <div class="app__header-buttons">
                 <label>
-                    <div class="select custom-select-wrapper-form">
+                    <div class="select app__header-select">
                         <select class="js-members">
                             <option value="0" selected>All members</option>
                             <option value="1">John</option>
@@ -81,8 +79,8 @@
     <label class="popup__label">
         <div class="select custom-select-wrapper-form">
             <select name="times">
-                <option value="10">10:00</option>
-                <option value="11" selected>11:00</option>
+                <option value="10" selected>10:00</option>
+                <option value="11">11:00</option>
                 <option value="12">12:00</option>
                 <option value="13">13:00</option>
                 <option value="14">14:00</option>
@@ -97,8 +95,8 @@
     <label class="popup__label">
         <div class="select custom-select-wrapper-form">
             <select name="days">
-                <option value="Monday">Monday</option>
-                <option value="Tuesday" selected>Tuesday</option>
+                <option value="Monday" selected>Monday</option>
+                <option value="Tuesday">Tuesday</option>
                 <option value="Wednesday">Wednesday</option>
                 <option value="Thursday">Thursday</option>
                 <option value="Friday">Friday</option>

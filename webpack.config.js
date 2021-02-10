@@ -52,7 +52,7 @@ const plugins = () => {
     if (isProd) {
         basePlugins.push(
             new ImageminPlugin({
-                bail: false, // Ignore errors on corrupted images
+                bail: false,
                 cache: true,
                 imageminOptions: {
                     plugins: [
@@ -146,7 +146,7 @@ module.exports = {
                 }],
             },
             {
-                test: /\.(?:|woff2)$/,
+                test: /\.(?:|eot|otf|ttf|woff|woff2)$/,
                 use: [{
                     loader: 'file-loader',
                     options: {

@@ -14,7 +14,7 @@
             <div class="app__header-buttons">
                 <label>
                     <div class="select app__header-select">
-                        <select class="js-members">
+                        <select class="select__inner js-members">
                             <option value="0" selected>All members</option>
                             <option value="1">John</option>
                             <option value="2">Sam</option>
@@ -65,20 +65,20 @@
     </label>
     <label class="popup__label">
         <div class="select select--multiple custom-select-wrapper-form">
-            <select class="select-multiple" name="participants" size="3" multiple>
-                <option value="1">John</option>
-                <option value="2">Sam</option>
-                <option value="3">Ann</option>
-                <option value="4">Tommy</option>
-                <option value="5">Hanna</option>
-                <option value="6">Kenny</option>
+            <select class="select__inner select-multiple" name="participants" size="3" multiple>
+                <option class="select__inner-option" value="1">John</option>
+                <option class="select__inner-option" value="2">Sam</option>
+                <option class="select__inner-option" value="3">Ann</option>
+                <option class="select__inner-option" value="4">Tommy</option>
+                <option class="select__inner-option" value="5">Hanna</option>
+                <option class="select__inner-option" value="6">Kenny</option>
             </select>
             <span class="focus"></span>
         </div>
     </label>
     <label class="popup__label">
         <div class="select custom-select-wrapper-form">
-            <select name="times">
+            <select class="select__inner" name="times">
                 <option value="10" selected>10:00</option>
                 <option value="11">11:00</option>
                 <option value="12">12:00</option>
@@ -94,7 +94,7 @@
     </label>
     <label class="popup__label">
         <div class="select custom-select-wrapper-form">
-            <select name="days">
+            <select class="select__inner" name="days">
                 <option value="Monday" selected>Monday</option>
                 <option value="Tuesday">Tuesday</option>
                 <option value="Wednesday">Wednesday</option>

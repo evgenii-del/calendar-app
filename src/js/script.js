@@ -1,6 +1,6 @@
 const timesArr = [10, 11, 12, 13, 14, 15, 16, 17, 18];
 const timesSelectArr = timesArr.map((el) => ({ value: el, label: `${el}:00` }));
-timesSelectArr[0].selected = true;
+
 const createCalendarData = () => {
   const obj = {};
   timesArr.forEach((time) => {
@@ -14,35 +14,9 @@ const createCalendarData = () => {
   });
   return obj;
 };
-const calendarData = createCalendarData();
-// Remove
-calendarData['12'] = {
-  Monday: {
-    id: '12-Monday',
-    participants: ['1', '3'],
-    title: 'Ciclum task',
-    color: 'yellow',
-    reserved: true,
-  },
-  Tuesday: {},
-  Wednesday: {},
-  Thursday: {},
-  Friday: {},
-};
-calendarData['14'] = {
-  Monday: {},
-  Tuesday: {},
-  Wednesday: {},
-  Thursday: {},
-  Friday: {
-    id: '14-Friday',
-    participants: ['1', '2', '5'],
-    title: 'Insurance',
-    color: 'green',
-    reserved: true,
-  },
-};
-// Remove
+
+const calendarData = localStorage.calendarData
+  ? JSON.parse(localStorage.calendarData) : createCalendarData();
 const popup = document.querySelector('.js-popup');
 const popupError = document.querySelector('.js-popup_error');
 const popupButton = document.querySelector('.js-popup__btn');
@@ -68,7 +42,6 @@ const createBlock = (data, selectedParticipant) => {
   } else {
     block.className = 'calendar__item';
   }
-
   return block;
 };
 
@@ -117,6 +90,7 @@ const addNewMeet = (values) => {
     reserved: true,
   };
 
+  localStorage.calendarData = JSON.stringify(calendarData);
   resetFilter();
 };
 
@@ -146,10 +120,8 @@ const retrieveFormValue = (event) => {
 
   for (const field of form) {
     const { name } = field;
-
     if (name) {
       const { type, value } = field;
-
       if (name === 'participants') {
         values.participants = [...field.options].filter((x) => x.selected).map((x) => x.value);
       } else if (isRadio(type)) {
@@ -167,6 +139,7 @@ const retrieveFormValue = (event) => {
 const removeEvent = (id) => {
   const [time, day] = id.split('-');
   calendarData[time][day] = {};
+  localStorage.calendarData = JSON.stringify(calendarData);
   renderCalendar(membersSelect.value);
   closePopup(popupConfirmation);
 };
@@ -203,5 +176,6 @@ document.addEventListener('DOMContentLoaded', () => {
   membersSelect.addEventListener('click', ({ target }) => renderCalendar(target.value));
   popupButton.addEventListener('click', ({ target }) => removeEvent(target.dataset.id));
 
+  timesSelectArr[0].selected = true;
   renderCalendar('0');
 });

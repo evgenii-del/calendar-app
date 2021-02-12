@@ -46,10 +46,10 @@ body {
 }
 
 .app {
-  background-color: #FFFFFF;
+  background-color: $white;
   width: 100%;
   padding: 50px;
-  border: 1px solid #FFFFFF;
+  border: 1px solid $white;
   border-radius: 10px;
   box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
 
@@ -73,9 +73,9 @@ body {
   }
 
   &__header-button {
-    background-color: #b9c4e2;
-    border: 1px solid #b9c4e2;
-    color: #FFFFFF;
+    background-color: $light-blue;
+    border: 1px solid $light-blue;
+    color: $white;
     padding: 8px 20px;
     border-radius: 4px;
     cursor: pointer;
@@ -83,8 +83,8 @@ body {
     font-size: 1rem;
 
     &:hover {
-      background-color: #FFFFFF;
-      color: #b9c4e2;
+      background-color: $white;
+      color: $light-blue;
     }
   }
 
@@ -104,11 +104,13 @@ body {
 }
 
 
-.times .times__item {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 15px;
+.app .times {
+  &__item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+  }
 }
 
 .app .days {
@@ -145,7 +147,7 @@ body {
 
       & .calendar__item-text {
         pointer-events: none;
-        color: #FFFFFF;
+        color: $white;
       }
 
       &:after {
@@ -156,9 +158,9 @@ body {
         transform: translateY(-50%);
         content: "";
         background-image: url("../img/close.svg");
-        background-size: 1rem;
-        width: 1rem;
-        height: 1rem;
+        background-size: .75rem;
+        width: .75rem;
+        height: .75rem;
       }
     }
 
@@ -188,8 +190,6 @@ body {
   }
 }
 
-/* POPUP */
-
 .popup {
   position: fixed;
   top: 50%;
@@ -202,7 +202,7 @@ body {
   justify-content: space-between;
   max-width: 320px;
   width: 100%;
-  background: #FFFFFF;
+  background: $white;
   box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
   padding: 15px;
@@ -248,7 +248,7 @@ body {
   &__field {
     font-size: 1rem;
     width: 100%;
-    border: 1px solid #EFEFEF;
+    border: 1px solid $light-gray;
     border-radius: 4px;
     padding: 8px 12px;
   }
@@ -272,7 +272,7 @@ body {
   }
 
   &__colors .check__input:checked + .check__box {
-    border-color: #333333;
+    border-color: $dark-gray;
   }
 
   &__colors .check__input:hover + .check__box {
@@ -285,18 +285,83 @@ body {
     margin-top: 50px;
     padding: 10px 20px;
     cursor: pointer;
-    background-color: #b9c4e2;
-    border: 1px solid #b9c4e2;
-    color: #FFFFFF;
+    background-color: $light-blue;
+    border: 1px solid $light-blue;
+    color: $white;
 
     &:hover {
-      background-color: #FFFFFF;
-      color: #b9c4e2;
+      background-color: $white;
+      color: $light-blue;
     }
   }
 }
 
-/* Colors */
+.select {
+  display: grid;
+  grid-template-areas: "select";
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+
+  &__inner {
+    appearance: none;
+    background-color: transparent;
+    margin: 0;
+    padding: 8px 12px;
+    width: 100%;
+    border: 1px solid $light-gray;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-family: inherit;
+    cursor: inherit;
+    line-height: inherit;
+    z-index: 1;
+    outline: none;
+
+    &::-ms-expand {
+      display: none;
+    }
+  }
+
+  &__inner,
+  &::after {
+    grid-area: select;
+  }
+
+  &__inner:focus,
+  &__inner:hover {
+    border: 1px solid $dark-gray;
+  }
+
+  &__inner:focus + .focus {
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    right: -1px;
+    bottom: -1px;
+    border: 2px solid var(--select-focus);
+    border-radius: inherit;
+  }
+
+  &:not(.select--multiple)::after {
+    content: "";
+    justify-self: end;
+    width: 0.8em;
+    height: 0.5em;
+    background-color: var(--select-arrow);
+    clip-path: polygon(100% 0%, 0 0%, 50% 100%);
+  }
+
+  .select-multiple {
+    padding: 0;
+
+    .select__inner-option {
+      padding: 8px 12px;
+      white-space: normal;
+      outline-color: var(--select-focus);
+    }
+  }
+}
 
 .yellow {
   background-color: #ECE784;
@@ -337,17 +402,25 @@ body {
 @media (max-width: 720px) {
   .app {
     padding: 50px 5px;
-  }
 
-  .times {
-    &__item {
-      padding: 15px 5px;
-      flex-direction: column;
+    &__content {
+      overflow: hidden;
     }
 
-    &__title,
-    &__minute {
-      display: none;
+    .calendar {
+      overflow-x: scroll;
+    }
+
+    .times {
+      &__item {
+        padding: 15px 5px;
+        flex-direction: column;
+      }
+
+      &__title,
+      &__minute {
+        display: none;
+      }
     }
   }
 }
@@ -356,78 +429,14 @@ body {
   .app {
     &__header {
       flex-direction: column;
-      align-items: flex-start;
+      align-items: center;
     }
 
     &__header-title {
       margin-bottom: 15px;
     }
   }
-}
-
-.select {
-  display: grid;
-  grid-template-areas: "select";
-  align-items: center;
-  position: relative;
-  cursor: pointer;
-
-  &__inner {
-    appearance: none;
-    background-color: transparent;
-    margin: 0;
-    padding: 8px 12px;
-    width: 100%;
-    border: 1px solid #EFEFEF;
-    border-radius: 4px;
-    font-size: 1rem;
-    font-family: inherit;
-    cursor: inherit;
-    line-height: inherit;
-    z-index: 1;
-    outline: none;
-
-    &::-ms-expand {
-      display: none;
-    }
-  }
-
-  &__inner,
-  &::after {
-    grid-area: select;
-  }
-
-  &__inner:focus,
-  &__inner:hover {
-    border: 1px solid #333333;
-  }
-
-  &__inner:focus + .focus {
-    position: absolute;
-    top: -1px;
-    left: -1px;
-    right: -1px;
-    bottom: -1px;
-    border: 2px solid var(--select-focus);
-    border-radius: inherit;
-  }
-
-  &:not(.select--multiple)::after {
-    content: "";
-    justify-self: end;
-    width: 0.8em;
-    height: 0.5em;
-    background-color: var(--select-arrow);
-    clip-path: polygon(100% 0%, 0 0%, 50% 100%);
-  }
-
-  .select-multiple {
-    padding: 0;
-
-    .select__inner-option {
-      padding: 8px 12px;
-      white-space: normal;
-      outline-color: var(--select-focus);
-    }
+  .popup {
+    max-width: 300px;
   }
 }

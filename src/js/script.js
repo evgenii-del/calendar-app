@@ -26,8 +26,36 @@ const popupConfirmation = document.querySelector('.js-popup_confirmation');
 const overlay = document.querySelector('.js-overlay');
 const calendar = document.querySelector('.js-calendar');
 const membersSelect = document.querySelector('.js-members');
+const popupLoginForm = document.querySelector('.js-popup_login');
 const { forms } = document;
 const form = forms[0];
+let user = {
+  id: 0,
+  name: '',
+  isAdmin: false,
+};
+
+class User {
+  constructor(id, name) {
+    this.id = id;
+    this.name = name;
+  }
+}
+
+class Admin extends User {
+  constructor(id, name) {
+    super(id, name);
+    this.isAdmin = true;
+  }
+}
+
+const user1 = new User('1', 'John');
+const user2 = new User('2', 'Sam');
+const user3 = new User('3', 'Ann');
+const user4 = new Admin('4', 'Thomas');
+const user5 = new User('5', 'Eve');
+
+const users = [user1, user2, user3, user4, user5];
 
 const createBlock = (data, selectedParticipant) => {
   const {
@@ -36,7 +64,11 @@ const createBlock = (data, selectedParticipant) => {
   const block = document.createElement('div');
 
   if ((participants && participants.includes(selectedParticipant)) || (selectedParticipant === '0' && reserved)) {
-    block.className = `calendar__item reserved ${color}`;
+    if (user.isAdmin) {
+      block.className = `calendar__item reserved ${color}`;
+    } else {
+      block.className = `calendar__item ${color}`;
+    }
     block.dataset.id = id;
     block.innerHTML = `<p class="calendar__item-text">${title}</p>`;
   } else {
@@ -154,28 +186,47 @@ const selectEvent = (target) => {
   }
 };
 
-document.addEventListener('DOMContentLoaded', () => {
-  closePopupButtons.forEach((button) => {
-    button.addEventListener('click', () => {
-      const popupActive = button.closest('.popup');
-      hidePopupError();
-      closePopup(popupActive);
+const showAdminInputs = () => {
+  if (user.isAdmin) {
+    openPopupButton.style.display = 'block';
+
+    closePopupButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        const popupActive = button.closest('.popup');
+        hidePopupError();
+        closePopup(popupActive);
+      });
     });
-  });
 
-  overlay.addEventListener('click', () => {
-    const popupsActive = document.querySelectorAll('.popup_active');
-    popupsActive.forEach((popupActive) => {
-      closePopup(popupActive);
+    overlay.addEventListener('click', () => {
+      const popupsActive = document.querySelectorAll('.popup_active');
+      popupsActive.forEach((popupActive) => {
+        closePopup(popupActive);
+      });
     });
-  });
 
-  form.addEventListener('submit', retrieveFormValue);
-  openPopupButton.addEventListener('click', () => openPopup(popup));
-  calendar.addEventListener('click', ({ target }) => selectEvent(target));
-  membersSelect.addEventListener('click', ({ target }) => renderCalendar(target.value));
-  popupButton.addEventListener('click', ({ target }) => removeEvent(target.dataset.id));
-
-  timesSelectArr[0].selected = true;
+    openPopupButton.addEventListener('click', () => openPopup(popup));
+    form.addEventListener('submit', retrieveFormValue);
+    calendar.addEventListener('click', ({ target }) => selectEvent(target));
+    popupButton.addEventListener('click', ({ target }) => removeEvent(target.dataset.id));
+    timesSelectArr[0].selected = true;
+  }
   renderCalendar('0');
+};
+
+const authorization = (event) => {
+  event.preventDefault();
+  const selectInput = event.target[0];
+  const selectedValue = selectInput.options[selectInput.selectedIndex].value;
+
+  user = users.find((user) => user.id === selectedValue);
+  closePopup(popupLoginForm);
+
+  showAdminInputs();
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+  popupLoginForm.addEventListener('submit', (event) => authorization(event));
+  membersSelect.addEventListener('click', ({ target }) => renderCalendar(target.value));
+  renderCalendar('6');
 });

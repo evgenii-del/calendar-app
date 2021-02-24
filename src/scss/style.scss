@@ -188,6 +188,7 @@ body {
   }
 
   &__item-text {
+    user-select: none;
     pointer-events: none;
     color: $white;
   }

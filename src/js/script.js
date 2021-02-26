@@ -1,3 +1,6 @@
+const system = 'evgenii_khasanov';
+const entity = 'events';
+const url = 'http://158.101.166.74:8080/api/data/';
 const popup = document.querySelector('.js-popup');
 const popupError = document.querySelector('.js-popup_error');
 const popupButton = document.querySelector('.js-popup__btn');
@@ -114,7 +117,7 @@ const formValidation = (values) => {
     times, days, title, participants,
   } = values;
   const isValid = timeValidation(times, days) && titleValidation(title)
-      && participantsValidation(participants);
+        && participantsValidation(participants);
 
   if (isValid) {
     addNewMeet(values);
@@ -200,7 +203,34 @@ const authorization = (event) => {
   renderCalendar('all', isAdmin);
 };
 
+const fetchEvents = () => {
+  fetch(`${url}${system}/${entity}`)
+    .then((response) => response.json())
+    .then((response) => console.log(response));
+};
+
+const createEvent = () => {
+  const data = {};
+  fetch(`${url}${system}/${entity}`, {
+    method: 'POST',
+    body: JSON.stringify(data),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+    .then((response) => console.log(response));
+};
+
+const deleteEvent = (id) => {
+  const data = {};
+  fetch(`${url}${system}/${entity}/${id}`, {
+    method: 'DELETE',
+  })
+    .then((response) => console.log(response));
+};
+
 document.addEventListener('DOMContentLoaded', () => {
+  fetchEvents();
   popupLoginForm.addEventListener('submit', (event) => authorization(event));
   membersSelect.addEventListener('click', ({ target }) => renderCalendar(target.value, isAdmin));
   renderCalendar('all', isAdmin);

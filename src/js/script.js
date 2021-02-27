@@ -90,7 +90,7 @@ const closePopup = (popupProp) => {
 
 const isRadio = (type) => ['radio'].includes(type);
 const titleValidation = (title) => title.length >= 3;
-const timeValidation = (time, day) => !calendarData[time][day].reserved;
+const timeValidation = (time, day) => !calendarData[time][day].data.reserved;
 const participantsValidation = (participants) => participants.length;
 
 const showPopupError = () => popupError.classList.add('popup_active');

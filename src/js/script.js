@@ -90,42 +90,44 @@ const closePopup = (popupProp) => {
 
 const isRadio = (type) => ['radio'].includes(type);
 const titleValidation = (title) => title.length >= 3;
-const timeValidation = (time, day) => !calendarData[time][day].data.reserved;
+const timeValidation = (time, day) => !calendarData[time][day].data;
 const participantsValidation = (participants) => participants.length;
 
 const showPopupError = () => popupError.classList.add('popup_active');
 const hidePopupError = () => popupError.classList.remove('popup_active');
 
-const fetchEvents = (selectedUser = 'all') => {
-  fetch(`${url}${system}/${entity}`)
+const fetchEvents = async (selectedUser = 'all') => {
+  await fetch(`${url}${system}/${entity}`)
     .then((response) => response.json())
     .then((response) => {
-      response.forEach((item) => {
-        const parsedData = JSON.parse(item.data);
-        const [time, day] = parsedData.date.split('-');
-        calendarData[time][day] = {
-          id: item.id,
-          data: parsedData,
-        };
-        renderCalendar(selectedUser, isAdmin);
-      });
+      if (response) {
+        response.forEach((item) => {
+          const parsedData = JSON.parse(item.data);
+          const [time, day] = parsedData.date.split('-');
+          calendarData[time][day] = {
+            id: item.id,
+            data: parsedData,
+          };
+        });
+      }
     });
+  renderCalendar(selectedUser, isAdmin);
 };
 
-const createEvent = (values) => {
+const createEvent = async (values) => {
   const {
-    times, days, title, colors: color, participants,
+    times, days, title, color, participants,
   } = values;
 
   const event = {
     date: `${times}-${days}`,
+    reserved: true,
     participants,
     title,
     color,
-    reserved: true,
   };
 
-  fetch(`${url}${system}/${entity}`, {
+  await fetch(`${url}${system}/${entity}`, {
     method: 'POST',
     body: JSON.stringify({ data: JSON.stringify(event) }),
   }).then(() => {
@@ -143,7 +145,11 @@ const formValidation = (values) => {
   const isValid = timeValidation(times, days) && titleValidation(title)
         && participantsValidation(participants);
 
-  isValid ? createEvent(values) : showPopupError();
+  if (isValid) {
+    createEvent(values);
+  } else {
+    showPopupError();
+  }
 };
 
 const retrieveFormValue = (event) => {
@@ -167,16 +173,13 @@ const retrieveFormValue = (event) => {
   formValidation(values);
 };
 
-const removeEvent = (date) => {
+const removeEvent = async (date) => {
   const [time, day] = date.split('-');
   const { id } = calendarData[time][day];
+  calendarData[time][day] = {};
 
-  fetch(`${url}${system}/${entity}/${id}`, {
+  await fetch(`${url}${system}/${entity}/${id}`, {
     method: 'DELETE',
-  }).then(() => {
-
-  }).finally(() => {
-
   });
 
   closePopup(popupConfirmation);
@@ -228,7 +231,7 @@ const authorization = (event) => {
 };
 
 document.addEventListener('DOMContentLoaded', () => {
-  fetchEvents();
   popupLoginForm.addEventListener('submit', (event) => authorization(event));
   membersSelect.addEventListener('click', ({ target }) => renderCalendar(target.value, isAdmin));
+  fetchEvents();
 });

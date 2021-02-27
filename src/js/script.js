@@ -27,8 +27,7 @@ const createCalendarData = () => {
   });
   return obj;
 };
-const calendarData = localStorage.calendarData
-  ? JSON.parse(localStorage.calendarData) : createCalendarData();
+const calendarData = createCalendarData();
 let isAdmin = false;
 
 class User {
@@ -50,7 +49,7 @@ const users = [...userNames.map((name, index) => new User(index + 1, name)), new
 
 const createBlock = (data, selectedParticipant, isAdminParam) => {
   const {
-    color, title, participants, reserved, id,
+    color, title, participants, reserved, date,
   } = data;
   const block = document.createElement('div');
   const participantsValidation = participants && participants.includes(selectedParticipant);
@@ -58,7 +57,7 @@ const createBlock = (data, selectedParticipant, isAdminParam) => {
 
   if (participantsValidation || defaultValidation) {
     block.className = `calendar__item ${color} ${isAdminParam ? 'reserved' : ''}`;
-    block.dataset.id = id;
+    block.dataset.id = date;
     block.innerHTML = `<p class="calendar__item-text">${title}</p>`;
   } else {
     block.className = 'calendar__item';
@@ -71,7 +70,8 @@ const renderCalendar = (selectedParticipant, isAdminParam) => {
   calendar.innerHTML = '';
   Object.values(calendarData).forEach((time) => {
     Object.values(time).forEach((day) => {
-      const block = createBlock(day, selectedParticipant, isAdminParam);
+      const data = day.data || {};
+      const block = createBlock(data, selectedParticipant, isAdminParam);
       fragment.appendChild(block);
     });
   });
@@ -93,24 +93,48 @@ const titleValidation = (title) => title.length >= 3;
 const timeValidation = (time, day) => !calendarData[time][day].reserved;
 const participantsValidation = (participants) => participants.length;
 
-const addNewMeet = (values) => {
+const showPopupError = () => popupError.classList.add('popup_active');
+const hidePopupError = () => popupError.classList.remove('popup_active');
+
+const fetchEvents = (selectedUser = 'all') => {
+  fetch(`${url}${system}/${entity}`)
+    .then((response) => response.json())
+    .then((response) => {
+      response.forEach((item) => {
+        const parsedData = JSON.parse(item.data);
+        const [time, day] = parsedData.date.split('-');
+        calendarData[time][day] = {
+          id: item.id,
+          data: parsedData,
+        };
+        renderCalendar(selectedUser, isAdmin);
+      });
+    });
+};
+
+const createEvent = (values) => {
   const {
     times, days, title, colors: color, participants,
   } = values;
 
-  calendarData[times][days] = {
-    id: `${times}-${days}`,
+  const event = {
+    date: `${times}-${days}`,
     participants,
     title,
     color,
     reserved: true,
   };
 
-  localStorage.calendarData = JSON.stringify(calendarData);
+  fetch(`${url}${system}/${entity}`, {
+    method: 'POST',
+    body: JSON.stringify({ data: JSON.stringify(event) }),
+  }).then(() => {
+    popup.reset();
+    hidePopupError();
+    closePopup(popup);
+    fetchEvents(membersSelect.value);
+  });
 };
-
-const showPopupError = () => popupError.classList.add('popup_active');
-const hidePopupError = () => popupError.classList.remove('popup_active');
 
 const formValidation = (values) => {
   const {
@@ -119,15 +143,7 @@ const formValidation = (values) => {
   const isValid = timeValidation(times, days) && titleValidation(title)
         && participantsValidation(participants);
 
-  if (isValid) {
-    addNewMeet(values);
-    closePopup(popup);
-    hidePopupError();
-    renderCalendar(membersSelect.value, isAdmin);
-    popup.reset();
-  } else {
-    showPopupError();
-  }
+  isValid ? createEvent(values) : showPopupError();
 };
 
 const retrieveFormValue = (event) => {
@@ -151,18 +167,26 @@ const retrieveFormValue = (event) => {
   formValidation(values);
 };
 
-const removeEvent = (id) => {
-  const [time, day] = id.split('-');
-  calendarData[time][day] = {};
-  localStorage.calendarData = JSON.stringify(calendarData);
-  renderCalendar(membersSelect.value, isAdmin);
+const removeEvent = (date) => {
+  const [time, day] = date.split('-');
+  const { id } = calendarData[time][day];
+
+  fetch(`${url}${system}/${entity}/${id}`, {
+    method: 'DELETE',
+  }).then(() => {
+
+  }).finally(() => {
+
+  });
+
   closePopup(popupConfirmation);
+  fetchEvents(membersSelect.value);
 };
 
 const selectEvent = (target) => {
   if (target.classList.contains('reserved')) {
     const [time, day] = target.dataset.id.split('-');
-    const event = calendarData[time][day];
+    const event = calendarData[time][day].data;
     popupConfirmation.querySelector('p').innerText = `Are you sure you want to delete "${event.title}" event?`;
     popupButton.dataset.id = target.dataset.id;
     openPopup(popupConfirmation);
@@ -203,35 +227,8 @@ const authorization = (event) => {
   renderCalendar('all', isAdmin);
 };
 
-const fetchEvents = () => {
-  fetch(`${url}${system}/${entity}`)
-    .then((response) => response.json())
-    .then((response) => console.log(response));
-};
-
-const createEvent = () => {
-  const data = {};
-  fetch(`${url}${system}/${entity}`, {
-    method: 'POST',
-    body: JSON.stringify(data),
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  })
-    .then((response) => console.log(response));
-};
-
-const deleteEvent = (id) => {
-  const data = {};
-  fetch(`${url}${system}/${entity}/${id}`, {
-    method: 'DELETE',
-  })
-    .then((response) => console.log(response));
-};
-
 document.addEventListener('DOMContentLoaded', () => {
   fetchEvents();
   popupLoginForm.addEventListener('submit', (event) => authorization(event));
   membersSelect.addEventListener('click', ({ target }) => renderCalendar(target.value, isAdmin));
-  renderCalendar('all', isAdmin);
 });

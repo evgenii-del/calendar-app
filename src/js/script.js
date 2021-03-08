@@ -1,3 +1,5 @@
+const axios = require('axios');
+
 const popup = document.querySelector('.js-popup');
 const popupError = document.querySelector('.js-popup_error');
 const popupButton = document.querySelector('.js-popup__btn');
@@ -51,11 +53,10 @@ class Server {
   }
 
   async fetchEvents(selectedUser = 'all') {
-    await fetch(this.fullUrl)
-      .then((response) => response.json())
+    await axios.get(this.fullUrl)
       .then((response) => {
         if (response) {
-          response.forEach((item) => {
+          response.data.forEach((item) => {
             const parsedData = JSON.parse(item.data);
             const [time, day] = parsedData.date.split('-');
             this.calendarData[time][day] = {
@@ -69,10 +70,7 @@ class Server {
   }
 
   async createEvent(body) {
-    await fetch(this.fullUrl, {
-      method: 'POST',
-      body,
-    }).then(() => {
+    await axios.post(this.fullUrl, body).then(() => {
       popup.reset();
       hidePopupError();
       closePopup(popup);
@@ -85,9 +83,7 @@ class Server {
     const { id } = this.calendarData[time][day];
     this.calendarData[time][day] = {};
 
-    await fetch(`${this.fullUrl}/${id}`, {
-      method: 'DELETE',
-    }).then(() => {
+    await axios.delete(`${this.fullUrl}/${id}`).then(() => {
       closePopup(popupConfirmation);
       this.fetchEvents(membersSelect.value);
     });

@@ -1,4 +1,4 @@
-const axios = require('axios');
+import axios from 'axios';
 
 const popup = document.querySelector('.js-popup');
 const popupError = document.querySelector('.js-popup_error');
@@ -41,7 +41,7 @@ const closePopup = (popupProp) => {
 const showPopupError = () => popupError.classList.add('popup_active');
 const hidePopupError = () => popupError.classList.remove('popup_active');
 
-class Server {
+export default class Server {
   constructor(url, system, entity) {
     if (typeof Server.instance === 'object') {
       return Server.instance;
@@ -52,21 +52,24 @@ class Server {
     return this;
   }
 
-  async fetchEvents(selectedUser = 'all') {
-    await axios.get(this.fullUrl)
-      .then((response) => {
-        if (response) {
-          response.data.forEach((item) => {
-            const parsedData = JSON.parse(item.data);
-            const [time, day] = parsedData.date.split('-');
-            this.calendarData[time][day] = {
-              id: item.id,
-              data: parsedData,
-            };
-          });
-        }
+  async changeCalendarData(selectedUser = 'all') {
+    const data = await this.fetchEvents();
+    if (data) {
+      data.forEach((item) => {
+        const parsedData = JSON.parse(item.data);
+        const [time, day] = parsedData.date.split('-');
+        this.calendarData[time][day] = {
+          id: item.id,
+          data: parsedData,
+        };
       });
+    }
     renderCalendar(selectedUser, isAdmin);
+  }
+
+  async fetchEvents() {
+    const response = await axios.get(this.fullUrl);
+    return response.data;
   }
 
   async createEvent(body) {
@@ -74,7 +77,7 @@ class Server {
       popup.reset();
       hidePopupError();
       closePopup(popup);
-      this.fetchEvents(membersSelect.value);
+      this.changeCalendarData(membersSelect.value);
     });
   }
 
@@ -85,7 +88,7 @@ class Server {
 
     await axios.delete(`${this.fullUrl}/${id}`).then(() => {
       closePopup(popupConfirmation);
-      this.fetchEvents(membersSelect.value);
+      this.changeCalendarData(membersSelect.value);
     });
   }
 }
@@ -254,7 +257,7 @@ const showAdminInputs = () => {
 
 const authorization = (event) => {
   event.preventDefault();
-  isAdmin = users.find((item) => item.id === +authForm.value).isAdmin;
+  isAdmin = users.find(({ id }) => id === +authForm.value).isAdmin;
   closePopup(popupLoginForm);
 
   if (isAdmin) showAdminInputs();
@@ -262,7 +265,7 @@ const authorization = (event) => {
 };
 
 document.addEventListener('DOMContentLoaded', () => {
-  ee.subscribe('event:fetch-events', () => serverInstance.fetchEvents());
+  ee.subscribe('event:fetch-events', () => serverInstance.changeCalendarData());
 
   popupLoginForm.addEventListener('submit', (event) => authorization(event));
   membersSelect.addEventListener('click', ({ target }) => renderCalendar(target.value, isAdmin));

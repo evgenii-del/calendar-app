@@ -27,17 +27,38 @@ npm run start
 npm run build
 ```
 
+## Prettier
+
+```
+# format all files with Prettie
+npx prettier --write .
+```
+
+```
+# If you have a CI setup, run the following as part of it to make sure that everyone runs Prettier
+prettier --check .
+```
+
+## Jest
+
+```
+# run tests
+npm test
+```
+
+
 ## The project used technologies such as:
 
-* Webpack 5
-* Babel
-* ESlint
-* devServer
-* Scss
+- Webpack 5
+- Babel
+- ESlint
+- devServer
+- Scss
+- Jest
 
 ## The project has implemented:
 
-* Display meetings planned;
-* Filter meetings for a particular team member;
-* Add new meetings;
-* Delete meetings;
+- Display meetings planned;
+- Filter meetings for a particular team member;
+- Add new meetings;
+- Delete meetings;

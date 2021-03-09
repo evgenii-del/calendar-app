@@ -84,7 +84,11 @@ export default class Server {
   }
 }
 
-const serverInstance = new Server('http://158.101.166.74:8080/api/data/', 'evgenii_khasanov', 'events');
+const serverInstance = new Server(
+  'http://158.101.166.74:8080/api/data/',
+  'evgenii_khasanov',
+  'events'
+);
 
 class EventEmitter {
   constructor() {
@@ -126,18 +130,22 @@ class Admin extends User {
 }
 
 const userNames = ['John', 'Sam', 'Ann', 'Thomas'];
-const users = [...userNames.map((name, index) => new User(index + 1, name)), new Admin(5, 'Eve')];
+const users = [
+  ...userNames.map((name, index) => new User(index + 1, name)),
+  new Admin(5, 'Eve'),
+];
 
 const createBlock = (data, selectedParticipant, isAdminParam) => {
-  const {
-    color, title, participants, reserved, date,
-  } = data;
+  const { color, title, participants, reserved, date } = data;
   const block = document.createElement('div');
-  const participantsValidation = participants && participants.includes(selectedParticipant);
+  const participantsValidation =
+    participants && participants.includes(selectedParticipant);
   const defaultValidation = selectedParticipant === 'all' && reserved;
 
   if (participantsValidation || defaultValidation) {
-    block.className = `calendar__item ${color} ${isAdminParam ? 'reserved' : ''}`;
+    block.className = `calendar__item ${color} ${
+      isAdminParam ? 'reserved' : ''
+    }`;
     block.dataset.id = date;
     block.innerHTML = `<p class="calendar__item-text">${title}</p>`;
   } else {
@@ -161,15 +169,16 @@ const renderCalendar = (selectedParticipant, isAdminParam) => {
 
 const isRadio = (type) => ['radio'].includes(type);
 const titleValidation = (title) => title.length >= 3;
-const timeValidation = (time, day) => !serverInstance.calendarData[time][day].data;
+const timeValidation = (time, day) =>
+  !serverInstance.calendarData[time][day].data;
 const participantsValidation = (participants) => participants.length;
 
 const formValidation = (values) => {
-  const {
-    times, days, title, color, participants,
-  } = values;
-  const isValid = timeValidation(times, days) && titleValidation(title)
-        && participantsValidation(participants);
+  const { times, days, title, color, participants } = values;
+  const isValid =
+    timeValidation(times, days) &&
+    titleValidation(title) &&
+    participantsValidation(participants);
 
   if (isValid) {
     const event = {
@@ -195,7 +204,9 @@ const retrieveFormValue = (event) => {
     const { name, type, value } = field;
 
     if (name === 'participants') {
-      values.participants = [...field.options].filter((x) => x.selected).map((x) => x.value);
+      values.participants = [...field.options]
+        .filter((x) => x.selected)
+        .map((x) => x.value);
     } else if (isRadio(type)) {
       if (field.checked) {
         values[name] = value;
@@ -212,7 +223,9 @@ const selectEvent = (target) => {
   if (target.classList.contains('reserved')) {
     const [time, day] = target.dataset.id.split('-');
     const event = serverInstance.calendarData[time][day].data;
-    popupConfirmation.querySelector('p').innerText = `Are you sure you want to delete "${event.title}" event?`;
+    popupConfirmation.querySelector(
+      'p'
+    ).innerText = `Are you sure you want to delete "${event.title}" event?`;
     popupButton.dataset.id = target.dataset.id;
     openPopup(popupConfirmation);
   }
@@ -242,7 +255,9 @@ const showAdminInputs = () => {
     formValidation(values);
   });
   calendar.addEventListener('click', ({ target }) => selectEvent(target));
-  popupButton.addEventListener('click', ({ target }) => ee.emit('event:remove-event', target.dataset.id));
+  popupButton.addEventListener('click', ({ target }) =>
+    ee.emit('event:remove-event', target.dataset.id)
+  );
   timesSelectArr[0].selected = true;
 
   ee.subscribe('event:remove-event', (data) => {
@@ -273,6 +288,8 @@ document.addEventListener('DOMContentLoaded', () => {
   ee.subscribe('event:fetch-events', () => serverInstance.changeCalendarData());
 
   popupLoginForm.addEventListener('submit', (event) => authorization(event));
-  membersSelect.addEventListener('click', ({ target }) => renderCalendar(target.value, isAdmin));
+  membersSelect.addEventListener('click', ({ target }) =>
+    renderCalendar(target.value, isAdmin)
+  );
   ee.emit('event:fetch-events');
 });

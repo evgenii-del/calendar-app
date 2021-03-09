@@ -10,7 +10,8 @@ const ImageminPlugin = require('imagemin-webpack');
 const isDev = process.env.NODE_ENV === 'development';
 const isProd = !isDev;
 
-const filename = (ext) => (isDev ? `[name].${ext}` : `[name].[contenthash].${ext}`);
+const filename = (ext) =>
+  isDev ? `[name].${ext}` : `[name].[contenthash].${ext}`;
 
 const optimization = () => {
   const configObj = {
@@ -44,7 +45,10 @@ const plugins = () => {
     }),
     new CopyWebpackPlugin({
       patterns: [
-        { from: path.resolve(__dirname, 'src/assets'), to: path.resolve(__dirname, 'app') },
+        {
+          from: path.resolve(__dirname, 'src/assets'),
+          to: path.resolve(__dirname, 'app'),
+        },
       ],
     }),
   ];
@@ -71,7 +75,7 @@ const plugins = () => {
             ],
           ],
         },
-      }),
+      })
     );
   }
 
@@ -122,7 +126,8 @@ module.exports = {
           {
             loader: MiniCssExtractPlugin.loader,
             options: {
-              publicPath: (resourcePath, context) => `${path.relative(path.dirname(resourcePath), context)}/`,
+              publicPath: (resourcePath, context) =>
+                `${path.relative(path.dirname(resourcePath), context)}/`,
             },
           },
           'css-loader',
@@ -136,21 +141,25 @@ module.exports = {
       },
       {
         test: /\.(?:|gif|png|jpg|jpeg|svg)$/,
-        use: [{
-          loader: 'file-loader',
-          options: {
-            name: `./img/${filename('[ext]')}`,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: `./img/${filename('[ext]')}`,
+            },
           },
-        }],
+        ],
       },
       {
         test: /\.(?:|eot|otf|ttf|woff|woff2)$/,
-        use: [{
-          loader: 'file-loader',
-          options: {
-            name: `./fonts/${filename('[ext]')}`,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: `./fonts/${filename('[ext]')}`,
+            },
           },
-        }],
+        ],
       },
     ],
   },

@@ -1,11 +1,11 @@
 import axios from 'axios';
-import Server from '../src/js/script';
+import Server from '../src/js/server';
 
 jest.mock('axios');
 const serverInstance = new Server(
   'http://158.101.166.74:8080/api/data/',
   'evgenii_khasanov',
-  'events'
+  'test'
 );
 
 describe('test Server class', () => {
@@ -44,16 +44,6 @@ describe('test Server class', () => {
     axios.post.mockImplementationOnce(() => Promise.resolve(data));
     const { id } = await serverInstance.createEvent(data);
     expect(id).toEqual(data.id);
-  });
-
-  test('test delete removeEvent', async () => {
-    const id = '11-Monday';
-    const data = {
-      status: 204
-    };
-    axios.delete.mockImplementationOnce(() => Promise.resolve(data));
-    const { status } = await serverInstance.removeEvent(id);
-    expect(status).toEqual(data.status);
   });
 
   test('test delete removeEvent', async () => {

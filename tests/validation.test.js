@@ -1,4 +1,4 @@
-import { isRadio, titleValidation, participantsValidation } from '../src/js/script';
+import { isRadio, titleValidation, participantsValidation } from '../src/js/validation';
 
 describe('test validation functions', () => {
 
@@ -8,7 +8,7 @@ describe('test validation functions', () => {
     expect(result).toEqual(true);
   });
 
-  test('isRadio test wrong', () => {
+  test('isRadio test wrong type', () => {
     const type = '';
     const result = isRadio(type);
     expect(result).toEqual(false);
@@ -20,7 +20,7 @@ describe('test validation functions', () => {
     expect(result).toEqual(true);
   });
 
-  test('titleValidation test wrong', () => {
+  test('titleValidation test wrong title', () => {
     const title = 'sh';
     const result = titleValidation(title);
     expect(result).toEqual(false);
@@ -32,7 +32,7 @@ describe('test validation functions', () => {
     expect(result).toEqual(1);
   });
 
-  test('participantsValidation test wrong', () => {
+  test('participantsValidation test wrong arr', () => {
     const arr = [];
     const result = participantsValidation(arr);
     expect(result).toEqual(0);

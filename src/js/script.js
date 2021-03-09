@@ -53,7 +53,7 @@ export default class Server {
   }
 
   async changeCalendarData(selectedUser = 'all') {
-    const data = await this.fetchEvents();
+    const { data } = await this.fetchEvents();
     if (data) {
       data.forEach((item) => {
         const parsedData = JSON.parse(item.data);
@@ -68,17 +68,11 @@ export default class Server {
   }
 
   async fetchEvents() {
-    const response = await axios.get(this.fullUrl);
-    return response.data;
+    return await axios.get(this.fullUrl);
   }
 
   async createEvent(body) {
-    await axios.post(this.fullUrl, body).then(() => {
-      popup.reset();
-      hidePopupError();
-      closePopup(popup);
-      this.changeCalendarData(membersSelect.value);
-    });
+    return await axios.post(this.fullUrl, body);
   }
 
   async removeEvent(date) {
@@ -86,10 +80,7 @@ export default class Server {
     const { id } = this.calendarData[time][day];
     this.calendarData[time][day] = {};
 
-    await axios.delete(`${this.fullUrl}/${id}`).then(() => {
-      closePopup(popupConfirmation);
-      this.changeCalendarData(membersSelect.value);
-    });
+    return await axios.delete(`${this.fullUrl}/${id}`);
   }
 }
 
@@ -214,7 +205,7 @@ const retrieveFormValue = (event) => {
     }
   });
 
-  formValidation(values);
+  return values;
 };
 
 const selectEvent = (target) => {
@@ -246,13 +237,27 @@ const showAdminInputs = () => {
   });
 
   openPopupButton.addEventListener('click', () => openPopup(popup));
-  popup.addEventListener('submit', retrieveFormValue);
+  popup.addEventListener('submit', (event) => {
+    const values = retrieveFormValue(event);
+    formValidation(values);
+  });
   calendar.addEventListener('click', ({ target }) => selectEvent(target));
   popupButton.addEventListener('click', ({ target }) => ee.emit('event:remove-event', target.dataset.id));
   timesSelectArr[0].selected = true;
 
-  ee.subscribe('event:remove-event', (data) => serverInstance.removeEvent(data));
-  ee.subscribe('event:create-event', (data) => serverInstance.createEvent(data));
+  ee.subscribe('event:remove-event', (data) => {
+    serverInstance.removeEvent(data);
+    closePopup(popupConfirmation);
+    serverInstance.changeCalendarData(membersSelect.value);
+  });
+
+  ee.subscribe('event:create-event', (data) => {
+    serverInstance.createEvent(data);
+    popup.reset();
+    hidePopupError();
+    closePopup(popup);
+    serverInstance.changeCalendarData(membersSelect.value);
+  });
 };
 
 const authorization = (event) => {

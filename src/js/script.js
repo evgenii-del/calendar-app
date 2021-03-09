@@ -13,7 +13,7 @@ const authForm = document.querySelector('.js-auth-select');
 const popupLoginForm = document.querySelector('.js-popup_login');
 const timesArr = [10, 11, 12, 13, 14, 15, 16, 17, 18];
 const timesSelectArr = timesArr.map((el) => ({ value: el, label: `${el}:00` }));
-const createCalendarData = () => {
+export const createCalendarData = () => {
   const obj = {};
   timesArr.forEach((time) => {
     obj[time] = {
@@ -167,11 +167,11 @@ const renderCalendar = (selectedParticipant, isAdminParam) => {
   calendar.appendChild(fragment);
 };
 
-const isRadio = (type) => ['radio'].includes(type);
-const titleValidation = (title) => title.length >= 3;
-const timeValidation = (time, day) =>
+export const isRadio = (type) => ['radio'].includes(type);
+export const titleValidation = (title) => title.length >= 3;
+export const timeValidation = (time, day) =>
   !serverInstance.calendarData[time][day].data;
-const participantsValidation = (participants) => participants.length;
+export const participantsValidation = (participants) => participants.length;
 
 const formValidation = (values) => {
   const { times, days, title, color, participants } = values;
